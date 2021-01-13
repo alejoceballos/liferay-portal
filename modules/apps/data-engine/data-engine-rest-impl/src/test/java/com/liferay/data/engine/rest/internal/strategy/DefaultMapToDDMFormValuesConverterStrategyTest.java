@@ -24,9 +24,11 @@ import com.liferay.dynamic.data.mapping.storage.DDMFormFieldValue;
 import com.liferay.dynamic.data.mapping.storage.DDMFormValues;
 import com.liferay.portal.json.JSONFactoryImpl;
 import com.liferay.portal.kernel.json.JSONFactoryUtil;
+import com.liferay.portal.kernel.json.JSONObject;
 import com.liferay.portal.kernel.language.Language;
 import com.liferay.portal.kernel.language.LanguageUtil;
 import com.liferay.portal.kernel.util.HashMapBuilder;
+import com.liferay.portal.kernel.util.LinkedHashMapBuilder;
 import com.liferay.portal.kernel.util.LocaleUtil;
 import com.liferay.portal.kernel.util.SetUtil;
 
@@ -55,6 +57,40 @@ public class DefaultMapToDDMFormValuesConverterStrategyTest
 	public void setUp() {
 		_setUpJSONFactoryUtil();
 		_setUpLanguageUtil();
+	}
+
+	@Test
+	public void testCreateDDMFormFieldValueAsHashMap() {
+		DDMFormField ddmFormField = _createDDMFormField(
+			"field1", "document_library", true);
+
+		Map<String, Object> values = LinkedHashMapBuilder.<String, Object>put(
+			"en_US",
+			LinkedHashMapBuilder.put(
+				"key 1", "value 1"
+			).put(
+				"key 2", "value 2"
+			).put(
+				"key 3", "value 3"
+			).build()
+		).build();
+
+		List<DDMFormFieldValue> ddmFormFieldValues =
+			_defaultMapToDDMFormValuesConverterStrategy.
+				createDDMFormFieldValues(
+					LinkedHashMapBuilder.<String, Object>put(
+						"field1", values
+					).build(),
+					ddmFormField, LocaleUtil.ENGLISH, null);
+
+		DDMFormFieldValue ddmFormFieldValue = ddmFormFieldValues.get(0);
+
+		JSONObject jsonObject = JSONFactoryUtil.createJSONObject(
+			(Map)values.get("en_US"));
+		Value value = ddmFormFieldValue.getValue();
+
+		Assert.assertEquals(
+			jsonObject.toString(), value.getString(LocaleUtil.ENGLISH));
 	}
 
 	@Test
