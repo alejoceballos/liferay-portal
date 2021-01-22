@@ -23,6 +23,8 @@ import com.liferay.data.engine.rest.dto.v2_0.DataLayoutPage;
 import com.liferay.data.engine.rest.dto.v2_0.DataLayoutRow;
 import com.liferay.data.engine.rest.dto.v2_0.DataRule;
 import com.liferay.dynamic.data.mapping.form.builder.rule.DDMFormRuleDeserializer;
+import com.liferay.dynamic.data.mapping.form.field.type.DDMFormFieldType;
+import com.liferay.dynamic.data.mapping.form.field.type.DDMFormFieldTypeServicesTracker;
 import com.liferay.dynamic.data.mapping.io.DDMFormLayoutSerializer;
 import com.liferay.dynamic.data.mapping.io.DDMFormLayoutSerializerSerializeRequest;
 import com.liferay.dynamic.data.mapping.io.DDMFormLayoutSerializerSerializeResponse;
@@ -36,13 +38,13 @@ import com.liferay.dynamic.data.mapping.model.DDMFormRule;
 import com.liferay.dynamic.data.mapping.model.DDMStructureLayout;
 import com.liferay.dynamic.data.mapping.spi.converter.SPIDDMFormRuleConverter;
 import com.liferay.dynamic.data.mapping.spi.converter.model.SPIDDMFormRule;
+import com.liferay.dynamic.data.mapping.util.DDMFormFactory;
 import com.liferay.portal.kernel.json.JSONException;
 import com.liferay.portal.kernel.json.JSONFactoryUtil;
 import com.liferay.portal.kernel.json.JSONObject;
 import com.liferay.portal.kernel.json.JSONUtil;
 import com.liferay.portal.kernel.util.ArrayUtil;
 import com.liferay.portal.kernel.util.GetterUtil;
-import com.liferay.portal.kernel.util.HashMapBuilder;
 import com.liferay.portal.kernel.util.ListUtil;
 import com.liferay.portal.kernel.util.MapUtil;
 
@@ -212,11 +214,29 @@ public class DataLayoutUtil {
 		Map<String, Object> dataLayoutFields = new HashMap<>();
 
 		ddmFormFields.forEach(
-			ddmFormField -> dataLayoutFields.put(
-				ddmFormField.getName(),
-				HashMapBuilder.<String, Object>put(
-					"required", ddmFormField.isRequired()
-				).build()));
+			ddmFormField -> {
+				DDMFormFieldType ddmFormFieldType =
+					ddmFormFieldTypeServicesTracker.getDDMFormFieldType(
+						ddmFormField.getType());
+
+				DDMForm ddmFormFieldTypeSettingsDDMForm = DDMFormFactory.create(
+					ddmFormFieldType.getDDMFormFieldTypeSettings());
+
+				List<DDMFormField> visualProperties = ListUtil.filter(
+					ddmFormFieldTypeSettingsDDMForm.getDDMFormFields(),
+					ddmFormFieldTypeSettingsField -> GetterUtil.getBoolean(
+						ddmFormFieldTypeSettingsField.getProperty(
+							"visualProperty")));
+
+				Map<String, Object> properties = new HashMap<>();
+
+				visualProperties.forEach(
+					visualProperty -> properties.put(
+						visualProperty.getName(),
+						ddmFormField.getProperty(visualProperty.getName())));
+
+				dataLayoutFields.put(ddmFormField.getName(), properties);
+			});
 
 		return dataLayoutFields;
 	}
