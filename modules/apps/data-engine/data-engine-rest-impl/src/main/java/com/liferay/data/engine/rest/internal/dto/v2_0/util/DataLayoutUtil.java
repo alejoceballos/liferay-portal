@@ -133,8 +133,11 @@ public class DataLayoutUtil {
 
 		DDMFormLayout ddmFormLayout = new DDMFormLayout();
 
+		Map<String, DDMFormField> ddmFormFieldsMap =
+			ddmForm.getDDMFormFieldsMap(true);
+
 		ddmFormLayout.setDDMFormFields(
-			_toDDMFormFields(dataLayout.getDataLayoutFields()));
+			_toDDMFormFields(dataLayout.getDataLayoutFields(), ddmFormFieldsMap));
 		ddmFormLayout.setDDMFormLayoutPages(
 			_toDDMFormLayoutPages(
 				dataLayout.getDataLayoutPages(), ddmForm.getDefaultLocale()));
@@ -324,7 +327,7 @@ public class DataLayoutUtil {
 	}
 
 	private static List<DDMFormField> _toDDMFormFields(
-		Map<String, Object> dataLayoutFields) {
+		Map<String, Object> dataLayoutFields, Map<String, DDMFormField> ddmFormFieldsMap) {
 
 		List<DDMFormField> ddmFormFields = new ArrayList<>();
 
@@ -334,6 +337,9 @@ public class DataLayoutUtil {
 
 		dataLayoutFields.forEach(
 			(key, value) -> {
+
+				DDMFormField ddmFormFieldDDMForm = ddmFormFieldsMap.get(key);
+
 				DDMFormField ddmFormField = new DDMFormField();
 
 				ddmFormField.setName(key);
@@ -342,6 +348,7 @@ public class DataLayoutUtil {
 
 				ddmFormField.setRequired(
 					GetterUtil.getBoolean(properties.get("required")));
+				ddmFormField.setType(ddmFormFieldDDMForm.getType());
 
 				ddmFormFields.add(ddmFormField);
 			});
