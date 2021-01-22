@@ -80,6 +80,7 @@ public class DataLayoutUtil {
 	}
 
 	public static DataLayout toDataLayout(
+			DDMFormFieldTypeServicesTracker ddmFormFieldTypeServicesTracker,
 			DDMFormLayout ddmFormLayout,
 			SPIDDMFormRuleConverter spiDDMFormRuleConverter)
 		throws Exception {
@@ -87,7 +88,8 @@ public class DataLayoutUtil {
 		return new DataLayout() {
 			{
 				dataLayoutFields = _toDataLayoutFields(
-					ddmFormLayout.getDDMFormFields());
+					ddmFormLayout.getDDMFormFields(),
+					ddmFormFieldTypeServicesTracker);
 				dataLayoutPages = _toDataLayoutPages(
 					ddmFormLayout.getDDMFormLayoutPages());
 				dataRules = _toDataRules(
@@ -98,6 +100,7 @@ public class DataLayoutUtil {
 	}
 
 	public static DataLayout toDataLayout(
+			DDMFormFieldTypeServicesTracker ddmFormFieldTypeServicesTracker,
 			DDMStructureLayout ddmStructureLayout,
 			SPIDDMFormRuleConverter spiDDMFormRuleConverter)
 		throws Exception {
@@ -107,6 +110,7 @@ public class DataLayoutUtil {
 		}
 
 		DataLayout dataLayout = toDataLayout(
+			ddmFormFieldTypeServicesTracker,
 			ddmStructureLayout.getDDMFormLayout(), spiDDMFormRuleConverter);
 
 		dataLayout.setDateCreated(ddmStructureLayout.getCreateDate());
@@ -202,7 +206,8 @@ public class DataLayoutUtil {
 	}
 
 	private static Map<String, Object> _toDataLayoutFields(
-		List<DDMFormField> ddmFormFields) {
+		List<DDMFormField> ddmFormFields,
+		DDMFormFieldTypeServicesTracker ddmFormFieldTypeServicesTracker) {
 
 		Map<String, Object> dataLayoutFields = new HashMap<>();
 
