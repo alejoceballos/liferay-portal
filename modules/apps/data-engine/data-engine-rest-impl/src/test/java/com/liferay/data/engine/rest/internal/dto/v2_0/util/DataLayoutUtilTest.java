@@ -35,6 +35,7 @@ import com.liferay.portal.kernel.util.LocaleUtil;
 import com.liferay.portal.kernel.util.SetUtil;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Locale;
 
 import org.junit.Assert;
@@ -102,9 +103,6 @@ public class DataLayoutUtilTest extends PowerMockito {
 
 		DDMFormLayout ddmFormLayout = new DDMFormLayout();
 
-		ddmFormLayout.setDefaultLocale(LocaleUtil.US);
-		ddmFormLayout.setPaginationMode("wizard");
-
 		ddmFormLayout.addDDMFormLayoutPage(
 			new DDMFormLayoutPage() {
 				{
@@ -143,9 +141,69 @@ public class DataLayoutUtilTest extends PowerMockito {
 							LocaleUtil.US));
 				}
 			});
+		ddmFormLayout.setDDMFormFields(
+			Collections.singletonList(
+				new DDMFormField() {
+					{
+						setLabel(
+							LocalizedValueUtil.toLocalizedValue(
+								HashMapBuilder.<String, Object>put(
+									"en_US", "label1"
+								).build(),
+								locale));
+						setName("textName");
+						setPredefinedValue(
+							LocalizedValueUtil.toLocalizedValue(
+								HashMapBuilder.<String, Object>put(
+									"en_US", "enter a text"
+								).build(),
+								locale));
+						setRequired(true);
+						setShowLabel(true);
+						setTip(
+							LocalizedValueUtil.toLocalizedValue(
+								HashMapBuilder.<String, Object>put(
+									"en_US", "tip1"
+								).build(),
+								locale));
+						setType("text");
+					}
+				}));
+		ddmFormLayout.setDefaultLocale(LocaleUtil.US);
+		ddmFormLayout.setPaginationMode("wizard");
 
 		DataLayout dataLayout = new DataLayout();
 
+		dataLayout.setDataLayoutFields(
+			HashMapBuilder.<String, Object>put(
+				"required", true
+			).put(
+				"showLabel", true
+			).put(
+				"textName",
+				HashMapBuilder.<String, Object>put(
+					"label",
+					LocalizedValueUtil.toLocalizedValue(
+						HashMapBuilder.<String, Object>put(
+							"en_US", "label1"
+						).build(),
+						locale)
+				).put(
+					"predefinedValue",
+					LocalizedValueUtil.toLocalizedValue(
+						HashMapBuilder.<String, Object>put(
+							"en_US", "enter a text"
+						).build(),
+						locale)
+				).put(
+					"tip",
+					LocalizedValueUtil.toLocalizedValue(
+						HashMapBuilder.<String, Object>put(
+							"en_US", "tip1"
+						).build(),
+						locale)
+				).build()
+			).build());
 		dataLayout.setDataLayoutPages(
 			new DataLayoutPage[] {
 				new DataLayoutPage() {
