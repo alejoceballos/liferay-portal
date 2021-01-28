@@ -42,6 +42,7 @@ import com.liferay.portal.kernel.util.StringUtil;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.Map;
 
 import org.hamcrest.CoreMatchers;
 
@@ -193,6 +194,60 @@ public class DataLayoutResourceTest extends BaseDataLayoutResourceTestCase {
 			assertEquals(randomDataLayout, postDataLayout);
 			assertValid(postDataLayout);
 		}
+
+		// Data layout with Data Layout Fields (Visual Property)
+
+		DataDefinitionField firstDataDefinitionField =
+			_dataDefinition.getDataDefinitionFields()[0];
+
+		String defaultLanguageId = _dataDefinition.getDefaultLanguageId();
+
+		Map<String, Object> dataLayoutFieldsWithVisualProps =
+			HashMapBuilder.<String, Object>put(
+				firstDataDefinitionField.getName(),
+				HashMapBuilder.<String, Object>put(
+					"predefinedValue",
+					HashMapBuilder.<String, Object>put(
+						defaultLanguageId, RandomTestUtil.randomString()
+					).build()
+				).put(
+					"tip",
+					HashMapBuilder.<String, Object>put(
+						defaultLanguageId, RandomTestUtil.randomString()
+					).build()
+				).put(
+					"label",
+					HashMapBuilder.<String, Object>put(
+						defaultLanguageId, RandomTestUtil.randomString()
+					).build()
+				).put(
+					"placeholder",
+					HashMapBuilder.<String, Object>put(
+						defaultLanguageId, RandomTestUtil.randomString()
+					).build()
+				).put(
+					"required", RandomTestUtil.randomBoolean()
+				).put(
+					"showLabel", RandomTestUtil.randomBoolean()
+				).build()
+			).build();
+
+		DataLayout randomDataLayoutWithVisualProps = randomDataLayout();
+
+		randomDataLayoutWithVisualProps.setDataLayoutFields(
+			dataLayoutFieldsWithVisualProps);
+
+		DataLayout postDataLayoutWithVisualProps =
+			testPostDataDefinitionDataLayout_addDataLayout(
+				randomDataLayoutWithVisualProps);
+
+		assertEquals(
+			randomDataLayoutWithVisualProps, postDataLayoutWithVisualProps);
+		Assert.assertTrue(
+			equals(
+				randomDataLayoutWithVisualProps.getDataLayoutFields(),
+				postDataLayoutWithVisualProps.getDataLayoutFields()));
+		assertValid(postDataLayoutWithVisualProps);
 
 		// MustNotDuplicateFieldName
 
