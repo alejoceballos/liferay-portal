@@ -26,6 +26,7 @@ import com.liferay.data.engine.rest.client.resource.v2_0.DataRecordCollectionRes
 import com.liferay.data.engine.rest.resource.v2_0.test.util.DataDefinitionTestUtil;
 import com.liferay.data.engine.rest.resource.v2_0.test.util.DataRecordCollectionTestUtil;
 import com.liferay.dynamic.data.lists.model.DDLRecordSet;
+import com.liferay.dynamic.data.lists.service.DDLRecordSetLocalServiceUtil;
 import com.liferay.dynamic.data.mapping.model.DDMStructure;
 import com.liferay.portal.kernel.service.ResourceLocalService;
 import com.liferay.portal.kernel.test.rule.DataGuard;
@@ -38,6 +39,7 @@ import com.liferay.portal.test.rule.Inject;
 import java.util.Arrays;
 import java.util.List;
 
+import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -469,6 +471,52 @@ public class DataRecordResourceTest extends BaseDataRecordResourceTestCase {
 			404,
 			dataRecordResource.postDataRecordCollectionDataRecordHttpResponse(
 				RandomTestUtil.randomLong(), randomDataRecord()));
+
+		// --> Persist data for text in a fieldset
+
+		DataDefinition postedDataDefinition =
+			DataDefinitionTestUtil.addDataDefinitionWithFieldSet(
+				testGroup.getGroupId());
+
+		DataRecord dataRecord = new DataRecord() {
+			{
+				dataRecordValues = HashMapBuilder.<String, Object>put(
+					"Text",
+					HashMapBuilder.<String, Object>put(
+						"en_US", "Text Value"
+					).build()
+				).put(
+					"fieldset1",
+					HashMapBuilder.<String, Object>put(
+						RandomTestUtil.randomString(),
+						HashMapBuilder.<String, Object>put(
+							"Text",
+							HashMapBuilder.<String, Object>put(
+								"en_US", "Text Value"
+							).build()
+						).build()
+					).build()
+				).build();
+			}
+		};
+
+		List<DDLRecordSet> dataDefinitionRecordSets =
+			DDLRecordSetLocalServiceUtil.getDDMStructureRecordSets(
+				postedDataDefinition.getId());
+
+		DDLRecordSet dataDefinitionRecordSet = dataDefinitionRecordSets.get(0);
+
+		DataRecord postedDataRecord =
+			dataRecordResource.postDataRecordCollectionDataRecord(
+				dataDefinitionRecordSet.getRecordSetId(), dataRecord);
+
+		Assert.assertEquals(
+			Long.valueOf(dataDefinitionRecordSet.getRecordSetId()),
+			postedDataRecord.getDataRecordCollectionId());
+		Assert.assertEquals(
+			dataRecord.getDataRecordValues(),
+			postedDataRecord.getDataRecordValues());
+		assertValid(postedDataRecord);
 	}
 
 	@Override
