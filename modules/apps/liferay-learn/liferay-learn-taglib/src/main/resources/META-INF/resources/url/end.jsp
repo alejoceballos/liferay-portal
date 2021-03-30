@@ -14,7 +14,10 @@
  */
 --%>
 
-<%@ include file="init.jsp" %>
+<%@ include file="/url/init.jsp" %>
+
+<a href="<%= url %>"><%= message %></a>
+
 <%
 	System.out.println("URL marota:" + url);
 	System.out.println("Mensagem marota:" + message);

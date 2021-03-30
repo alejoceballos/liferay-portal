@@ -15,14 +15,15 @@
 package com.liferay.liferay.learn.taglib.servlet.taglib;
 
 import com.liferay.liferay.learn.taglib.servlet.taglib.base.BaseUrlTag;
-import com.liferay.portal.kernel.json.JSONException;
-import com.liferay.portal.kernel.json.JSONFactoryUtil;
 import com.liferay.portal.kernel.json.JSONObject;
+import com.liferay.portal.kernel.json.JSONUtil;
 import com.liferay.portal.kernel.language.LanguageUtil;
 import com.liferay.portal.kernel.log.Log;
 import com.liferay.portal.kernel.log.LogFactoryUtil;
+import com.liferay.portal.kernel.util.LocaleThreadLocal;
 
 import javax.servlet.jsp.JspException;
+import java.util.Objects;
 
 /**
  * @author Jeyvison Nascimento
@@ -31,28 +32,53 @@ import javax.servlet.jsp.JspException;
 public class UrlTag extends BaseUrlTag {
 	@Override
 	public int doStartTag() throws JspException {
-//		WebCacheItem webCacheItem = new GetUrlWebCacheItem(
-//			"https://learn.liferay.com/dynamic/" + getKey() + ".json",
-//			4 * 60 * 60 * 1000);
-//
-//		String json = (String) WebCachePoolUtil.get(getKey(), webCacheItem);
+		int result = super.doStartTag();
 
-		String json = "{ \"url\":\"http://www.google.com\", \"messages\":{ \"en_US\":\"This is an English message\", \"pt_BR\":\"Esta é uma mensagem em português\" } }";
+		JSONObject jsonObject = JSONUtil.put(
+			"CHATWOOD_ID_IN_THE_SERVER",
+			JSONUtil.put(
+				"messages",
+				JSONUtil.put(
+					"en_US", "How do I get my ID for Chatwood?"
+				).put(
+					"pt_BR", "Como consigo o ID do Chatwood?"
+				)
+			).put(
+				"url", "https://www.google.com/search?q=chatwood+id"
+			)
+		).put(
+			"PIVOCHAT_ID_IN_THE_SERVER",
+			JSONUtil.put(
+				"messages",
+				JSONUtil.put(
+					"en_US", "How do I get my ID for Jivochat?"
+				).put(
+					"pt_BR", "Como consigo o ID do Jivochat?"
+				)
+			).put(
+				"url", "https://www.google.com/search?q=jivochat+id"
+			)
+		);
 
-		try {
-			JSONObject jsonObject = JSONFactoryUtil.createJSONObject(json);
+		JSONObject keyJSONObject = jsonObject.getJSONObject(getKey());
 
-			JSONObject jsonObjectMessages = (JSONObject) jsonObject.get("messages");
-			String message = (String) jsonObjectMessages.get(LanguageUtil.getLanguageId(getRequest()));
+		setNamespacedAttribute(getRequest(), "url", keyJSONObject.get("url"));
 
-			setNamespacedAttribute(getRequest(), "url", jsonObject.get("url"));
-			setNamespacedAttribute(getRequest(), "message", message);
+		JSONObject messagesJSONObject = (JSONObject)keyJSONObject.get(
+			"messages");
+
+		String message = (String)messagesJSONObject.get(
+			LanguageUtil.getLanguageId(getRequest()));
+
+		if (Objects.isNull(message)) {
+			message = (String)messagesJSONObject.get(
+				LanguageUtil.getLanguageId(
+					LocaleThreadLocal.getDefaultLocale()));
 		}
-		catch (JSONException e) {
-			_log.error(e, e);
-		}
 
-		return super.doStartTag();
+		setNamespacedAttribute(getRequest(), "message", message);
+
+		return result;
 	}
 
 	private static final Log _log = LogFactoryUtil.getLog(UrlTag.class);
