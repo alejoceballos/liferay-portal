@@ -1,0 +1,14 @@
+Bundle-Name: Liferay Learn Taglib
+Bundle-SymbolicName: com.liferay.liferay.learn.taglib
+Bundle-Version: 1.0.0
+Export-Package: com.liferay.liferay.learn.taglib.servlet.taglib
+Provide-Capability:\
+	osgi.extender;\
+		osgi.extender="jsp.taglib";\
+		uri="http://alloy.liferay.com/tld/alloy_util";\
+		version:Version="${Bundle-Version}",\
+	osgi.extender;\
+		osgi.extender="jsp.taglib";\
+		uri="http://liferay.com/tld/liferay-learn";\
+		version:Version="${Bundle-Version}"
+Web-ContextPath: /liferay-learn

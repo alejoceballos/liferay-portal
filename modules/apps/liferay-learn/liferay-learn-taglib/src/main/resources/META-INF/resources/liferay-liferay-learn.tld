@@ -1,0 +1,18 @@
+<?xml version="1.0"?>
+
+<taglib xmlns="http://java.sun.com/xml/ns/javaee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" version="2.1" xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-jsptaglibrary_2_1.xsd">
+	<tlib-version>1.0</tlib-version>
+	<short-name>liferay-liferay-learn</short-name>
+	<uri>http://liferay.com/tld/liferay-learn</uri>
+	<tag>
+		<name>url</name>
+		<tag-class>com.liferay.liferay.learn.taglib.servlet.taglib.UrlTag</tag-class>
+		<body-content>JSP</body-content>
+		<attribute>
+			<name>key</name>
+			<required>true</required>
+			<rtexprvalue>true</rtexprvalue>
+		</attribute>
+		<dynamic-attributes>true</dynamic-attributes>
+	</tag>
+</taglib>
