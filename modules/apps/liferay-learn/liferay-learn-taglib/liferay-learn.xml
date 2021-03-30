@@ -1,0 +1,18 @@
+<?xml version="1.0"?>
+
+<taglibs osgi-module="true" short-name="liferay-learn" tlib-version="1.0" uri="http://liferay.com/tld/liferay-learn">
+	<authors>
+		<author>Jeyvison Nascimento</author>
+		<author>Leonardo Barros</author>
+	</authors>
+	<component bodyContent="true" name="URL" writeJSP="true">
+		<attributes>
+			<attribute>
+				<name>componentId</name>
+				<inputType>java.lang.String</inputType>
+				<outputType>java.lang.String</outputType>
+				<required>false</required>
+			</attribute>
+		</attributes>
+	</component>
+</taglibs>
