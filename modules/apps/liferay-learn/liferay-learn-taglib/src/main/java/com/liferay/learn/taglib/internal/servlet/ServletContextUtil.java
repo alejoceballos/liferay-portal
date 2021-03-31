@@ -11,7 +11,7 @@
  * FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public License for more
  * details.
  */
-package com.liferay.liferay.learn.taglib.internal.servlet;
+package com.liferay.learn.taglib.internal.servlet;
 
 import com.liferay.portal.kernel.util.Validator;
 

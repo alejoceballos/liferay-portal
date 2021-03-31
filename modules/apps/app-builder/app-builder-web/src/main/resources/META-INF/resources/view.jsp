@@ -20,7 +20,9 @@
 	<link href="<%= PortalUtil.getStaticResourceURL(request, PortalUtil.getPathModule() + "/data-engine-taglib/data_layout_builder/css/main.css") %>" rel="stylesheet" />
 </liferay-util:html-top>
 
-<liferay-learn:url key="1234567890" />
+<liferay-learn:url
+	key="PIVOCHAT_ID_IN_THE_SERVER"
+/>
 
 <div id="<portlet:namespace />-app-builder-root">
 	<liferay-portlet:resourceURL copyCurrentRenderParameters="<%= false %>" var="baseResourceURL" />

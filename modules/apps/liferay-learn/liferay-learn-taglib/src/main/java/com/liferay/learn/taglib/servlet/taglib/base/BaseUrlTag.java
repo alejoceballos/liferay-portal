@@ -12,9 +12,9 @@
  * details.
  */
 
-package com.liferay.liferay.learn.taglib.servlet.taglib.base;
+package com.liferay.learn.taglib.servlet.taglib.base;
 
-import com.liferay.liferay.learn.taglib.internal.servlet.ServletContextUtil;
+import com.liferay.learn.taglib.internal.servlet.ServletContextUtil;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.jsp.JspException;

@@ -20,7 +20,6 @@
 
 <%
 java.lang.Object key = (java.lang.Object)request.getAttribute("liferay-liferay-learn:url:key");
-Map<String, Object> dynamicAttributes = (Map<String, Object>)request.getAttribute("liferay-liferay-learn:url:dynamicAttributes");
 %>
 
 <%@ include file="/url/init-ext.jspf" %>
