@@ -12,10 +12,6 @@
  * FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public License for more
  * details.
  */
-
-@generated
 --%>
-<%
-java.lang.String url = GetterUtil.getString((java.lang.String)request.getAttribute("liferay-liferay-learn:url:url"));
-java.lang.String message = GetterUtil.getString((java.lang.String)request.getAttribute("liferay-liferay-learn:url:message"));
-%>
+
+<%@ include file="/message/init.jsp" %>

@@ -12,14 +12,12 @@
  * details.
  */
 
-package com.liferay.liferay.learn.taglib.servlet.taglib;
+package com.liferay.learn.taglib.servlet.taglib;
 
-import com.liferay.liferay.learn.taglib.servlet.taglib.base.BaseUrlTag;
+import com.liferay.learn.taglib.servlet.taglib.base.BaseMessageTag;
 import com.liferay.portal.kernel.json.JSONObject;
 import com.liferay.portal.kernel.json.JSONUtil;
 import com.liferay.portal.kernel.language.LanguageUtil;
-import com.liferay.portal.kernel.log.Log;
-import com.liferay.portal.kernel.log.LogFactoryUtil;
 import com.liferay.portal.kernel.util.LocaleThreadLocal;
 
 import javax.servlet.jsp.JspException;
@@ -29,7 +27,7 @@ import java.util.Objects;
  * @author Jeyvison Nascimento
  * @author Alejo Ceballos
  */
-public class UrlTag extends BaseUrlTag {
+public class MessageTag extends BaseMessageTag {
 	@Override
 	public int doStartTag() throws JspException {
 		int result = super.doStartTag();
@@ -80,6 +78,4 @@ public class UrlTag extends BaseUrlTag {
 
 		return result;
 	}
-
-	private static final Log _log = LogFactoryUtil.getLog(UrlTag.class);
 }

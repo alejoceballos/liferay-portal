@@ -52,7 +52,8 @@
 </div>
 
 <div style="text-align: center">
-	<liferay-learn:url
+	<liferay-learn:message
+		bundle="WHATEVER"
 		key="PIVOCHAT_ID_IN_THE_SERVER"
 	/>
 </div>

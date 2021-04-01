@@ -12,9 +12,9 @@
  * details.
  */
 
-package com.liferay.liferay.learn.taglib.servlet.taglib.base;
+package com.liferay.learn.taglib.servlet.taglib.base;
 
-import com.liferay.liferay.learn.taglib.internal.servlet.ServletContextUtil;
+import com.liferay.learn.taglib.internal.servlet.ServletContextUtil;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.jsp.JspException;
@@ -25,7 +25,7 @@ import javax.servlet.jsp.PageContext;
  * @author Alejo Ceballos
  * @generated
  */
-public abstract class BaseUrlTag extends com.liferay.taglib.util.IncludeTag {
+public abstract class BaseMessageTag extends com.liferay.taglib.util.IncludeTag {
 
 	@Override
 	public int doStartTag() throws JspException {
@@ -34,8 +34,16 @@ public abstract class BaseUrlTag extends com.liferay.taglib.util.IncludeTag {
 		return super.doStartTag();
 	}
 
+	public java.lang.String getBundle() {
+		return _bundle;
+	}
+
 	public java.lang.String getKey() {
 		return _key;
+	}
+
+	public void setBundle(java.lang.String bundle) {
+		_bundle = bundle;
 	}
 
 	public void setKey(java.lang.String key) {
@@ -53,6 +61,7 @@ public abstract class BaseUrlTag extends com.liferay.taglib.util.IncludeTag {
 	protected void cleanUp() {
 		super.cleanUp();
 
+		_bundle = null;
 		_key = null;
 	}
 
@@ -68,17 +77,19 @@ public abstract class BaseUrlTag extends com.liferay.taglib.util.IncludeTag {
 
 	@Override
 	protected void setAttributes(HttpServletRequest request) {
+		setNamespacedAttribute(request, "bundle", _bundle);
 		setNamespacedAttribute(request, "key", _key);
 	}
 
-	protected static final String _ATTRIBUTE_NAMESPACE = "liferay-liferay-learn:url:";
+	protected static final String _ATTRIBUTE_NAMESPACE = "liferay-learn:message:";
 
 	private static final String _END_PAGE =
-		"/url/end.jsp";
+		"/message/end.jsp";
 
 	private static final String _START_PAGE =
-		"/url/start.jsp";
+		"/message/start.jsp";
 
+	private java.lang.String _bundle = null;
 	private java.lang.String _key = null;
 
 }

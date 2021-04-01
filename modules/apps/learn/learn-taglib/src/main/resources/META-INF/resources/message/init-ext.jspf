@@ -15,12 +15,7 @@
 
 @generated
 --%>
-
-<%@ include file="/init.jsp" %>
-
 <%
-java.lang.Object key = (java.lang.Object)request.getAttribute("liferay-liferay-learn:url:key");
-Map<String, Object> dynamicAttributes = (Map<String, Object>)request.getAttribute("liferay-liferay-learn:url:dynamicAttributes");
+java.lang.String url = GetterUtil.getString((java.lang.String)request.getAttribute("liferay-learn:message:url"));
+java.lang.String message = GetterUtil.getString((java.lang.String)request.getAttribute("liferay-learn:message:message"));
 %>
-
-<%@ include file="/url/init-ext.jspf" %>

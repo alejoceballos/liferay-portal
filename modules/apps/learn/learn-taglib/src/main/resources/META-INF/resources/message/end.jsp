@@ -14,7 +14,7 @@
  */
 --%>
 
-<%@ include file="/url/init.jsp" %>
+<%@ include file="/message/init.jsp" %>
 
 <div id="liferay-learn-url">
 	<a href="<%= url %>"><%= message %></a>

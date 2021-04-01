@@ -12,6 +12,16 @@
  * FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public License for more
  * details.
  */
+
+@generated
 --%>
 
-<%@ include file="/url/init.jsp" %>
+<%@ include file="/init.jsp" %>
+
+<%
+java.lang.Object bundle = (java.lang.Object)request.getAttribute("liferay-learn:message:bundle");
+java.lang.Object key = (java.lang.Object)request.getAttribute("liferay-learn:message:key");
+Map<String, Object> dynamicAttributes = (Map<String, Object>)request.getAttribute("liferay-learn:message:dynamicAttributes");
+%>
+
+<%@ include file="/message/init-ext.jspf" %>
