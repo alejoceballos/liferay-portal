@@ -20,10 +20,6 @@
 	<link href="<%= PortalUtil.getStaticResourceURL(request, PortalUtil.getPathModule() + "/data-engine-taglib/data_layout_builder/css/main.css") %>" rel="stylesheet" />
 </liferay-util:html-top>
 
-<liferay-learn:url
-	key="PIVOCHAT_ID_IN_THE_SERVER"
-/>
-
 <div id="<portlet:namespace />-app-builder-root">
 	<liferay-portlet:resourceURL copyCurrentRenderParameters="<%= false %>" var="baseResourceURL" />
 
@@ -52,5 +48,11 @@
 				"workflowProcessBuilderPortletURL", String.valueOf(workflowProcessBuilderPortletURL)
 			).build()
 		%>'
+	/>
+</div>
+
+<div style="text-align: center">
+	<liferay-learn:url
+		key="PIVOCHAT_ID_IN_THE_SERVER"
 	/>
 </div>

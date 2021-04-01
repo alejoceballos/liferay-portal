@@ -16,7 +16,9 @@
 
 <%@ include file="/url/init.jsp" %>
 
-<a href="<%= url %>"><%= message %></a>
+<div id="liferay-learn-url">
+	<a href="<%= url %>"><%= message %></a>
+</div>
 
 <%
 	System.out.println("URL marota:" + url);
